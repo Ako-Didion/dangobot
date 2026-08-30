@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      target: ${ENV:-dev}
+    env_file:
+      - .env
+    environment:
+      DB_HOST: postgres
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-zeub}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-zeub}
+      POSTGRES_DB: ${DB_NAME:-zeub}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-zeub}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
