@@ -4,6 +4,8 @@ import { IntentsBitField } from 'discord.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { OsuApiModule } from './osu-api/osu-api.module';
 
 @Module({
   imports: [
@@ -25,9 +27,16 @@ import { AppService } from './app.service';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         token: config.get<string>('DISCORD_TOKEN')!,
-        intents: [IntentsBitField.Flags.Guilds],
+        intents: [
+          IntentsBitField.Flags.Guilds,
+          IntentsBitField.Flags.GuildMessages,
+          IntentsBitField.Flags.GuildMembers,
+          IntentsBitField.Flags.MessageContent,
+        ],
       }),
     }),
+    OsuApiModule,
+    AuthModule,
   ],
   providers: [AppService],
 })
