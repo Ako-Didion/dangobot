@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { NecordModule } from 'necord';
 import { IntentsBitField } from 'discord.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { NecordExceptionFilter } from './common/filters/necord-exception.filter';
 import { OsuApiModule } from './osu-api/osu-api.module';
 
 @Module({
@@ -37,5 +39,6 @@ import { OsuApiModule } from './osu-api/osu-api.module';
     OsuApiModule,
     AuthModule,
   ],
+  providers: [{ provide: APP_FILTER, useClass: NecordExceptionFilter }],
 })
 export class AppModule {}
