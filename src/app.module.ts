@@ -3,7 +3,6 @@ import { NecordModule } from 'necord';
 import { IntentsBitField } from 'discord.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { OsuApiModule } from './osu-api/osu-api.module';
 
@@ -38,6 +37,5 @@ import { OsuApiModule } from './osu-api/osu-api.module';
     OsuApiModule,
     AuthModule,
   ],
-  providers: [AppService],
 })
 export class AppModule {}
