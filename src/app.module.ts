@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { NecordExceptionFilter } from './common/filters/necord-exception.filter';
 import { OsuApiModule } from './osu-api/osu-api.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { OsuApiModule } from './osu-api/osu-api.module';
     }),
     OsuApiModule,
     AuthModule,
+    ProfileModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: NecordExceptionFilter }],
 })
